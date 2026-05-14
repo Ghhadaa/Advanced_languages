@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 
 # SQLite database
-players.db
+# players.db
 
 # Logs
 system.log
