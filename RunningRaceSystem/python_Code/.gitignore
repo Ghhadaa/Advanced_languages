@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# SQLite database
+players.db
+
+# Logs
+system.log
+
+# VS Code settings
+.vscode/
+
+# Environment files
+.env
+
+# Mac system files
+.DS_Store

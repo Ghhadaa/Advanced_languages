@@ -34,40 +34,128 @@ def menu():
 # -----------------------------------
 def add_player():
 
+    print("\n========== ADD PLAYER ==========")
+
     player = {}
 
-    player["id"] = input("Player ID: ")
-    player["name"] = input("Player Name: ")
+    # -----------------------------------
+    # Player ID
+    # -----------------------------------
+    while True:
 
-    age = int(input("Age: "))
+        player_id = input("Player ID: ")
 
-    if not validations.valid_age(age):
+        valid, message = validations.validate_player_id(
+            player_id
+        )
 
-        print("Invalid age.")
-        return
+        if valid:
 
-    player["age"] = age
+            player["id"] = player_id
+            break
 
-    min_time = float(input("Best Time: "))
+        else:
+            print("Error:", message)
 
-    if not validations.valid_time(min_time):
+    # -----------------------------------
+    # Name
+    # -----------------------------------
+    while True:
 
-        print("Invalid time.")
-        return
+        name = input("Player Name: ")
 
-    player["min_time"] = min_time
+        valid, message = validations.validate_name(
+            name
+        )
 
-    rounds = int(input("Rounds Played: "))
-    wins = int(input("Wins: "))
+        if valid:
 
-    if not validations.valid_wins(wins, rounds):
+            player["name"] = name
+            break
 
-        print("Wins cannot exceed rounds.")
-        return
+        else:
+            print("Error:", message)
 
-    player["rounds"] = rounds
-    player["wins"] = wins
+    # -----------------------------------
+    # Age
+    # -----------------------------------
+    while True:
 
+        age = input("Age: ")
+
+        valid, message = validations.validate_age(
+            age
+        )
+
+        if valid:
+
+            player["age"] = int(age)
+            break
+
+        else:
+            print("Error:", message)
+
+    # -----------------------------------
+    # Best Time
+    # -----------------------------------
+    while True:
+
+        min_time = input("Best Time: ")
+
+        valid, message = validations.validate_time(
+            min_time
+        )
+
+        if valid:
+
+            player["min_time"] = float(min_time)
+            break
+
+        else:
+            print("Error:", message)
+
+    # -----------------------------------
+    # Rounds
+    # -----------------------------------
+    while True:
+
+        rounds = input("Rounds Played: ")
+
+        valid, message = validations.validate_rounds(
+            rounds
+        )
+
+        if valid:
+
+            player["rounds"] = int(rounds)
+            break
+
+        else:
+            print("Error:", message)
+
+    # -----------------------------------
+    # Wins
+    # -----------------------------------
+    while True:
+
+        wins = input("Wins: ")
+
+        valid, message = validations.validate_wins(
+            wins,
+            player["rounds"]
+        )
+
+        if valid:
+
+            player["wins"] = int(wins)
+            break
+
+        else:
+            print("Error:", message)
+
+    # -----------------------------------
+    # Save Player
+    # -----------------------------------
     success = database.add_player(player)
 
     if success:
@@ -77,7 +165,6 @@ def add_player():
     else:
 
         print("\nPlayer ID already exists.")
-
 
 # -----------------------------------
 # Search Player
