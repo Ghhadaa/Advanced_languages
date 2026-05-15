@@ -1,4 +1,5 @@
 import re
+import database
 
 
 # -----------------------------------
@@ -6,11 +7,18 @@ import re
 # -----------------------------------
 def validate_player_id(player_id):
 
-    if len(player_id.strip()) == 0:
-        return False, "Player ID cannot be empty."
+    # Must contain 4 digits only
+    if not re.fullmatch(r"\d{4}", player_id):
 
-    if len(player_id) < 3:
-        return False, "Player ID must be at least 3 characters."
+        return False, (
+            "Player ID must contain "
+            "exactly 4 digits."
+        )
+
+    # Check duplicate ID
+    if database.search_player(player_id):
+
+        return False, "Player ID already exists."
 
     return True, ""
 
@@ -21,10 +29,14 @@ def validate_player_id(player_id):
 def validate_name(name):
 
     if len(name.strip()) == 0:
+
         return False, "Name cannot be empty."
 
-    if not re.match(r"^[A-Za-z ]+$", name):
-        return False, "Name must contain letters only."
+    if not re.fullmatch(r"[A-Za-z ]+", name):
+
+        return False, (
+            "Name must contain letters only."
+        )
 
     return True, ""
 
@@ -39,12 +51,16 @@ def validate_age(age):
         age = int(age)
 
         if age < 10 or age > 100:
-            return False, "Age must be between 10 and 100."
+
+            return False, (
+                "Age must be between 10 and 100."
+            )
 
         return True, ""
 
     except:
-        return False, "Age must be a valid number."
+
+        return False, "Age must be numeric."
 
 
 # -----------------------------------
@@ -57,14 +73,21 @@ def validate_time(min_time):
         min_time = float(min_time)
 
         if min_time <= 0:
-            return False, "Time must be greater than 0."
+
+            return False, (
+                "Time must be greater than 0."
+            )
 
         if min_time > 100:
-            return False, "Time value is unrealistic."
+
+            return False, (
+                "Time value is unrealistic."
+            )
 
         return True, ""
 
     except:
+
         return False, "Time must be numeric."
 
 
@@ -78,11 +101,15 @@ def validate_rounds(rounds):
         rounds = int(rounds)
 
         if rounds < 0:
-            return False, "Rounds cannot be negative."
+
+            return False, (
+                "Rounds cannot be negative."
+            )
 
         return True, ""
 
     except:
+
         return False, "Rounds must be numeric."
 
 
@@ -97,12 +124,19 @@ def validate_wins(wins, rounds):
         rounds = int(rounds)
 
         if wins < 0:
-            return False, "Wins cannot be negative."
+
+            return False, (
+                "Wins cannot be negative."
+            )
 
         if wins > rounds:
-            return False, "Wins cannot exceed rounds."
+
+            return False, (
+                "Wins cannot exceed rounds."
+            )
 
         return True, ""
 
     except:
+
         return False, "Wins must be numeric."

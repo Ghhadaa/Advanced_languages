@@ -3,6 +3,7 @@ import auth
 import validations
 import analysis
 import leaderboard
+import statistics
 
 
 # -----------------------------------
@@ -20,13 +21,21 @@ def welcome():
 # -----------------------------------
 def menu():
 
-    print("\n1 - Add Player")
-    print("2 - Search Player")
-    print("3 - Update Player")
-    print("4 - Delete Player")
-    print("5 - Display All Players")
-    print("6 - Show Leaderboard")
-    print("7 - Exit")
+    print("\n")
+    print("======================================")
+    print(" SMART RACE MANAGEMENT SYSTEM")
+    print("======================================")
+
+    print("1  -> Add Player")
+    print("2  -> Search Player")
+    print("3  -> Update Player")
+    print("4  -> Delete Player")
+    print("5  -> Display Players")
+    print("6  -> Leaderboard")
+    print("7  -> Statistics")
+    print("8  -> Exit")
+
+    print("======================================")
 
 
 # -----------------------------------
@@ -34,7 +43,9 @@ def menu():
 # -----------------------------------
 def add_player():
 
-    print("\n========== ADD PLAYER ==========")
+    print("\n===================================")
+    print("           ADD PLAYER")
+    print("===================================")
 
     player = {}
 
@@ -43,10 +54,14 @@ def add_player():
     # -----------------------------------
     while True:
 
-        player_id = input("Player ID: ")
+        player_id = input(
+            "Enter 4-digit Player ID: "
+        )
 
-        valid, message = validations.validate_player_id(
-            player_id
+        valid, message = (
+            validations.validate_player_id(
+                player_id
+            )
         )
 
         if valid:
@@ -54,37 +69,35 @@ def add_player():
             player["id"] = player_id
             break
 
-        else:
-            print("Error:", message)
+        print("Error:", message)
 
     # -----------------------------------
     # Name
     # -----------------------------------
     while True:
 
-        name = input("Player Name: ")
+        name = input("Enter Player Name: ")
 
-        valid, message = validations.validate_name(
-            name
+        valid, message = (
+            validations.validate_name(name)
         )
 
         if valid:
 
-            player["name"] = name
+            player["name"] = name.title()
             break
 
-        else:
-            print("Error:", message)
+        print("Error:", message)
 
     # -----------------------------------
     # Age
     # -----------------------------------
     while True:
 
-        age = input("Age: ")
+        age = input("Enter Age: ")
 
-        valid, message = validations.validate_age(
-            age
+        valid, message = (
+            validations.validate_age(age)
         )
 
         if valid:
@@ -92,37 +105,46 @@ def add_player():
             player["age"] = int(age)
             break
 
-        else:
-            print("Error:", message)
+        print("Error:", message)
 
     # -----------------------------------
     # Best Time
     # -----------------------------------
     while True:
 
-        min_time = input("Best Time: ")
+        min_time = input(
+            "Enter Best Time: "
+        )
 
-        valid, message = validations.validate_time(
-            min_time
+        valid, message = (
+            validations.validate_time(
+                min_time
+            )
         )
 
         if valid:
 
-            player["min_time"] = float(min_time)
+            player["min_time"] = (
+                float(min_time)
+            )
+
             break
 
-        else:
-            print("Error:", message)
+        print("Error:", message)
 
     # -----------------------------------
     # Rounds
     # -----------------------------------
     while True:
 
-        rounds = input("Rounds Played: ")
+        rounds = input(
+            "Enter Rounds Played: "
+        )
 
-        valid, message = validations.validate_rounds(
-            rounds
+        valid, message = (
+            validations.validate_rounds(
+                rounds
+            )
         )
 
         if valid:
@@ -130,19 +152,20 @@ def add_player():
             player["rounds"] = int(rounds)
             break
 
-        else:
-            print("Error:", message)
+        print("Error:", message)
 
     # -----------------------------------
     # Wins
     # -----------------------------------
     while True:
 
-        wins = input("Wins: ")
+        wins = input("Enter Wins: ")
 
-        valid, message = validations.validate_wins(
-            wins,
-            player["rounds"]
+        valid, message = (
+            validations.validate_wins(
+                wins,
+                player["rounds"]
+            )
         )
 
         if valid:
@@ -150,22 +173,31 @@ def add_player():
             player["wins"] = int(wins)
             break
 
-        else:
-            print("Error:", message)
+        print("Error:", message)
 
     # -----------------------------------
     # Save Player
     # -----------------------------------
-    success = database.add_player(player)
+    try:
 
-    if success:
+        success = database.add_player(
+            player
+        )
 
-        print("\nPlayer added successfully.")
+        if success:
 
-    else:
+            print("\nPlayer added successfully.")
 
-        print("\nPlayer ID already exists.")
+        else:
 
+            print("\nFailed to add player.")
+
+    except Exception as error:
+
+        print(
+            "\nUnexpected Error:",
+            error
+        )
 # -----------------------------------
 # Search Player
 # -----------------------------------
@@ -297,31 +329,43 @@ def main():
         choice = input("\nEnter your choice: ")
 
         if choice == "1":
+
             add_player()
 
         elif choice == "2":
+
             search_player()
 
         elif choice == "3":
+
             update_player()
 
         elif choice == "4":
+
             delete_player()
 
         elif choice == "5":
+
             display_players()
 
         elif choice == "6":
+
             leaderboard.show_leaderboard()
 
         elif choice == "7":
+
+            statistics.show_statistics()
+
+        elif choice == "8":
 
             print("\nGood Luck.")
             break
 
         else:
 
-            print("\nInvalid choice.")
+            print(
+                "\nInvalid choice."
+            )
 
 
 main()
