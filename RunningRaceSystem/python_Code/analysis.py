@@ -58,3 +58,83 @@ def performance_recommendation(score):
 
     else:
         return "Needs Intensive Training"
+    
+    # -----------------------------------
+# Recommendation System
+# -----------------------------------
+def player_recommendation(
+    min_time,
+    wins,
+    rounds
+):
+
+    recommendations = []
+
+    # -----------------------------------
+    # Win Rate Analysis
+    # -----------------------------------
+    if rounds > 0:
+
+        win_rate = (
+            wins / rounds
+        ) * 100
+
+    else:
+
+        win_rate = 0
+
+    # -----------------------------------
+    # Speed Recommendation
+    # -----------------------------------
+    if min_time > 20:
+
+        recommendations.append(
+            "Improve running speed "
+            "through sprint training."
+        )
+
+    elif min_time > 15:
+
+        recommendations.append(
+            "Focus on endurance "
+            "and speed balance."
+        )
+
+    # -----------------------------------
+    # Win Rate Recommendation
+    # -----------------------------------
+    if win_rate < 40:
+
+        recommendations.append(
+            "Increase match practice "
+            "to improve win rate."
+        )
+
+    elif win_rate < 60:
+
+        recommendations.append(
+            "Needs more strategic "
+            "race preparation."
+        )
+
+    # -----------------------------------
+    # Experience Recommendation
+    # -----------------------------------
+    if rounds < 5:
+
+        recommendations.append(
+            "Participate in more races "
+            "to gain experience."
+        )
+
+    # -----------------------------------
+    # Final Recommendation
+    # -----------------------------------
+    if len(recommendations) == 0:
+
+        recommendations.append(
+            "Excellent performance. "
+            "Maintain current training."
+        )
+
+    return recommendations

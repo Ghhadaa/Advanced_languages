@@ -216,8 +216,17 @@ def search_player():
 
         score = analysis.performance_score(
             player[3],
-            player[5]
+            player[5],
+            player[4] 
         )
+
+        recommendations = (
+    analysis.player_recommendation(
+        player[3],
+        player[5],
+        player[4]
+    )
+)
 
         print(f"""
 ========== PLAYER INFO ==========
@@ -233,9 +242,13 @@ Category: {category}
 Performance Score: {score}
         """)
 
-    else:
+        print("\nRecommendations:")
 
-        print("\nPlayer not found.")
+        for rec in recommendations:
+            print(f"- {rec}")
+
+        else:
+            print("\nPlayer not found.")
 
 
 # -----------------------------------
